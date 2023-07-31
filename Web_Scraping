@@ -1,0 +1,284 @@
+Public Declare PtrSafe Sub Sleep Lib "kernel32" (ByVal dwMilliseconds As LongPtr) ' Permite a função sleep
+' Ctrl+G
+' Enable the database Ferramentas/Referencias/Microsoft HTML Object Library
+' Enable the database Ferramentas/Referencias/Microsoft XML V6.0
+' Enable the database Ferramentas/Referencias/Microsoft Scripting Runtime
+
+Sub Buscar1() 'Start program
+'Open the site
+Dim xml As New MSXML2.XMLHTTP60 'Create a variable xml as data base MSXML2
+Dim url As String 'Create a variable url as string
+Dim htmlDoc As New MSHTML.HTMLDocument 'Create a variable htmlDoc as MSHTML to push the response from site
+Dim classe1 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe2 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe3 As MSHTML.IHTMLElement ' Search elements from html
+Dim classe4 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe5 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe6 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe7 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe8 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe9 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim Linha As Integer
+Linha = 2
+Dim Coluna As Integer
+
+Do While Linha <= Cells(2, 20) + 1
+    url = Cells(Linha, 18) 'Get the url in this cell
+    xml.Open "GET", url, False 'Open the url and wait to load with the comand "false" (opened the conection)
+    xml.send 'Send this to the server
+    htmlDoc.body.innerHTML = xml.responseText 'Get and put in the variable htmlDoc
+    
+    Set classe1 = htmlDoc.getElementsByClassName("title__address js-address")
+    Cells(Linha, 2) = classe1.Item(0).innerText
+    Set classe2 = htmlDoc.getElementsByClassName("title__code js-external-id")
+    Cells(Linha, 3) = classe2.Item(0).innerText
+    Set classe3 = htmlDoc.getElementsByTagName("strong")(3)
+    Cells(Linha, 4) = classe3.innerText
+    Set classe4 = htmlDoc.getElementsByClassName("price__price-info js-price-sale")
+    Cells(Linha, 5) = classe4.Item(0).innerText
+    Set classe5 = htmlDoc.getElementsByClassName("features__item features__item--area js-area")
+    Cells(Linha, 7) = classe5.Item(0).innerText
+    Set classe6 = htmlDoc.getElementsByClassName("features__item features__item--bedroom js-bedrooms")
+    Cells(Linha, 8) = classe6.Item(0).innerText
+    Set classe7 = htmlDoc.getElementsByClassName("features__item features__item--bathroom js-bathrooms")
+    Cells(Linha, 9) = classe7.Item(0).innerText
+    Set classe8 = htmlDoc.getElementsByClassName("features__item features__item--parking js-parking")
+    Cells(Linha, 11) = classe8.Item(0).innerText
+    Set classe9 = htmlDoc.getElementsByClassName("price__list-value condominium js-condominium")
+    Cells(Linha, 12).Value = classe9.Item(0).innerText
+    
+    Linha = Linha + 1
+    ' + ("price__list-value condominium js-condominium")
+    'button
+    'request-information__button js-request-information
+Loop
+
+Linha = 2 ' Inseri o numero dois na variável x
+Do While Linha < Cells(2, 20) + 2 ' Executa o comando abaixo até x ser menor do que o numero na celula da linha dois coluna vinte mais dois
+Cells(Linha, 7) = Application.WorksheetFunction.Substitute(Cells(Linha, 7).Cells, "m²", "") 'Substituição m² por vazio
+Linha = Linha + 1 ' Soma mais um na variável x
+Loop ' Volta no comando do while acima
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 5) = Application.WorksheetFunction.Substitute(Cells(Linha, 5).Cells, "R$", "") 'Substituição'
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 8) = Application.WorksheetFunction.Substitute(Cells(Linha, 8).Cells, "quartos", "") 'Substituição
+Cells(Linha, 8) = Application.WorksheetFunction.Substitute(Cells(Linha, 8).Cells, "quarto", "") 'Substituição
+Cells(Linha, 8) = Application.WorksheetFunction.Substitute(Cells(Linha, 8).Cells, " Não informado Solicitar ", 0) 'Substituição
+Cells(Linha, 8).NumberFormat = "#,##0"
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+
+Cells(Linha, 9) = Application.WorksheetFunction.Substitute(Cells(Linha, 9).Cells, "banheiros", "") 'Substituição
+Cells(Linha, 9) = Application.WorksheetFunction.Substitute(Cells(Linha, 9).Cells, "banheiro", "") 'Substituição
+Cells(Linha, 9) = Application.WorksheetFunction.Substitute(Cells(Linha, 9).Cells, " Não informado Solicitar ", 0) 'Substituição
+Cells(Linha, 9).NumberFormat = "#,##0"
+
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 11) = Application.WorksheetFunction.Substitute(Cells(Linha, 11).Cells, "vagas", "") 'Substituição'
+Cells(Linha, 11) = Application.WorksheetFunction.Substitute(Cells(Linha, 11).Cells, "vaga", "") 'Substituição'
+Cells(Linha, 11).NumberFormat = "#,##0"
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 12) = Application.WorksheetFunction.Substitute(Cells(Linha, 12).Cells, "R$", "") 'Substituição'
+Cells(Linha, 12).NumberFormat = "$ #.##0,0"
+Linha = Linha + 1
+Loop
+
+
+End Sub
+
+Sub Buscar2() 'Start program
+'Open the site
+Dim xml As New MSXML2.XMLHTTP60 'Create a variable xml as data base MSXML2
+Dim url As String 'Create a variable url as string
+Dim htmlDoc As New MSHTML.HTMLDocument 'Create a variable htmlDoc as MSHTML to push the response from site
+Dim classe1 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe2 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe3 As MSHTML.IHTMLElement ' Search elements from html
+Dim classe4 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe5 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe6 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe7 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe8 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim classe9 As MSHTML.IHTMLElementCollection ' Search elements from html
+Dim Linha As Integer
+Linha = 2
+Dim Coluna As Integer
+
+Do While Linha <= Cells(2, 20) + 1
+    url = Cells(Linha, 18) 'Get the url in this cell
+    xml.Open "GET", url, False 'Open the url and wait to load with the comand "false" (opened the conection)
+    xml.send 'Send this to the server
+    htmlDoc.body.innerHTML = xml.responseText 'Get and put in the variable htmlDoc
+    
+    Set classe1 = htmlDoc.getElementsByClassName("title__address js-address")
+    Cells(Linha, 2) = classe1.Item(0).innerText
+    Set classe2 = htmlDoc.getElementsByClassName("title__code js-external-id")
+    Cells(Linha, 3) = classe2.Item(0).innerText
+    Set classe3 = htmlDoc.getElementsByTagName("strong")(3)
+    Cells(Linha, 4) = classe3.innerText
+    Set classe4 = htmlDoc.getElementsByClassName("price__price-info js-price-sale")
+    Cells(Linha, 5) = classe4.Item(0).innerText
+    Set classe5 = htmlDoc.getElementsByClassName("features__item features__item--area js-area")
+    Cells(Linha, 7) = classe5.Item(0).innerText
+    Set classe6 = htmlDoc.getElementsByClassName("features__item features__item--bedroom js-bedrooms")
+    Cells(Linha, 8) = classe6.Item(0).innerText
+    Set classe7 = htmlDoc.getElementsByClassName("features__item features__item--bathroom js-bathrooms")
+    Cells(Linha, 9) = classe7.Item(0).innerText
+    Set classe8 = htmlDoc.getElementsByClassName("features__item features__item--parking js-parking")
+    Cells(Linha, 11) = classe8.Item(0).innerText
+    Set classe9 = htmlDoc.getElementsByClassName("request-information__button js-request-information")
+    Cells(Linha, 12).Value = classe9.Item(0).innerText
+    Linha = Linha + 1
+
+Loop
+
+Linha = 2 ' Inseri o numero dois na variável x
+Do While Linha < Cells(2, 20) + 2 ' Executa o comando abaixo até x ser menor do que o numero na celula da linha dois coluna vinte mais dois
+Cells(Linha, 7) = Application.WorksheetFunction.Substitute(Cells(Linha, 7).Cells, "m²", "") 'Substituição m² por vazio
+Linha = Linha + 1 ' Soma mais um na variável x
+Loop ' Volta no comando do while acima
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 5) = Application.WorksheetFunction.Substitute(Cells(Linha, 5).Cells, "R$", "") 'Substituição'
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 8) = Application.WorksheetFunction.Substitute(Cells(Linha, 8).Cells, "quartos", "") 'Substituição
+Cells(Linha, 8) = Application.WorksheetFunction.Substitute(Cells(Linha, 8).Cells, "quarto", "") 'Substituição
+Cells(Linha, 8) = Application.WorksheetFunction.Substitute(Cells(Linha, 8).Cells, " Não informado Solicitar ", 0) 'Substituição
+Cells(Linha, 8).NumberFormat = "#,##0"
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+
+Cells(Linha, 9) = Application.WorksheetFunction.Substitute(Cells(Linha, 9).Cells, "banheiros", "") 'Substituição
+Cells(Linha, 9) = Application.WorksheetFunction.Substitute(Cells(Linha, 9).Cells, "banheiro", "") 'Substituição
+Cells(Linha, 9) = Application.WorksheetFunction.Substitute(Cells(Linha, 9).Cells, " Não informado Solicitar ", 0) 'Substituição
+Cells(Linha, 9).NumberFormat = "#,##0"
+
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 11) = Application.WorksheetFunction.Substitute(Cells(Linha, 11).Cells, "vagas", "") 'Substituição'
+Cells(Linha, 11) = Application.WorksheetFunction.Substitute(Cells(Linha, 11).Cells, "vaga", "") 'Substituição'
+Cells(Linha, 11).NumberFormat = "#,##0"
+Linha = Linha + 1
+Loop
+Linha = 2
+Do While Linha < Cells(2, 20) + 2
+Cells(Linha, 12) = Application.WorksheetFunction.Substitute(Cells(Linha, 12).Cells, "R$", "") 'Substituição'
+Cells(Linha, 12).NumberFormat = "$ #.##0,0"
+Linha = Linha + 1
+Loop
+
+
+End Sub
+
+Sub Localização()
+'Video ensinando a usar selenium (Google Chrome) - https://youtu.be/jGGu9JWQT5A
+    Dim y As Integer
+    Dim x As Integer
+    y = 2
+    Do While y < Cells(2, 20) + 2 ' Executa o código abaixo enquanto y for menor que o valor da célula da linha 2 e coluna 20 mais 2
+    
+    Set cd = New Selenium.ChromeDriver
+    Dim webEntrar As Selenium.WebElement
+    
+    
+    cd.Start
+    cd.Get "https://www.google.com.br/maps/"
+    
+    
+    Set webEntrar = cd.FindElementByCss _
+    (".searchboxinput.xiQnY")
+    
+    webEntrar.Click
+    
+    cd.FindElementByCss(".searchboxinput.xiQnY").SendKeys Cells(y, 2).Value ' Digita o endereço da origem
+    Sleep (2000) ' Aguarda 2s
+    cd.FindElementByCss(".eYqqWd.vF7Cdb").Click 'Clica na caixa de texto
+    Sleep (2000) ' Aguarda 2s
+    cd.FindElementByCss("[tooltip='Escolher ponto de partida ou clicar no mapa...']").SendKeys Cells(5, 20).Value ' Digita o endereço do destino
+    Sleep (2000) ' Aguarda 2s
+    cd.FindElementByCss("[aria-label='A pé']").Click 'Clica na imagem de homem caminhando
+    Sleep (2000) ' Aguarda 2s
+    Cells(y, 17).Value = cd.FindElementByCss(".ivN21e.tUEI8e.fontBodyMedium").Attribute("innerText") 'copia o texto
+    y = y + 1 ' Soma mais 1 e pega o próximo endereço
+    Loop
+End Sub
+'Programa antigo co internet explorer
+'Sub Localização()
+'Dim y As Integer
+'Dim x As Integer
+'y = 2
+'Do While y < Cells(2, 20) + 2 ' Executa o código abaixo enquanto y for menor que o valor da célula da linha 2 e coluna 20 mais 2
+'Set ie = CreateObject("internetexplorer.application") 'Cria o objeto internet para ser usado no ie.navigate
+'ie.navigate "https://www.google.com.br/maps/dir///@-23.4982257,-46.5883538,14z/data=!4m2!4m1!3e2" 'Navega no link da variável nome
+'ie.Visible = True ' ' Usado para visualizar a tela do explorer
+'Do While ie.busy And ie.readyState <> "READYSTATE_COMPLETE" ' Aguarda a pagina carregar inteira para executar a copia das variáveis
+'DoEvents ' Aguarda a pagina carregar inteira para executar a copia das variáveis
+'Loop ' Volta no do while mais próximo
+'Sleep (2000)
+'ie.document.getElementsByClassName("OzmNAc")(0).Click ' Clica no trajeto caminhando
+'Sleep (2000)
+'ie.document.getElementsByClassName("tactile-searchbox-input")(0).Value = Cells(y, 2).Value ' Digita o endereço da origem
+'SendKeys "{ENTER}", True 'Aperta o enter para procurar
+'Sleep (2000)
+'ie.document.getElementsByClassName("tactile-searchbox-input")(1).Value = Cells(5, 20).Value ' Digita o endereço do destino
+'Sleep (2000)
+'SendKeys "{ENTER}", True 'Aperta o enter para procurar
+'Sleep (2000)
+'ie.document.getElementsByClassName("tactile-searchbox-input")(1).Value = Cells(5, 20).Value ' Digira a origem novamente
+'Sleep (2000)
+'SendKeys "{ENTER}", True 'Aperta o enter para procurar
+'Sleep (5000)
+'
+'Cells(y, 17) = ie.document.getElementsByClassName("ivN21e tUEI8e fontBodyMedium")(0).innerText ' Copia a kilometragem
+'y = y + 1
+'ie.Quit
+'Loop
+''ie.document.getElementsByTagName("button")(4).Click
+''Sleep (2000)
+''ie.document.getElementsByClassName("j9zajd")(0).Click
+''ie.document.getElementsByClassName("tactile-searchbox-input")(2).Click
+'End Sub
+
+Sub Formatar()
+Dim L As Integer
+y = 2
+    Do While y < Cells(2, 20) + 2 'Executa o código abaixo enquanto y for menor que o valor da célula da linha 2 e coluna 20 mais 2
+    If Cells(y, 5) < 1000 Then ' verifica se o valor da celula se é menor do que 1000 para multiplicar por 1000
+        Cells(y, 5) = Cells(y, 5) * 1000
+    End If
+    Cells(y, 9) = Trim(Cells(y, 9)) ' elimina espaços no final e no começo da célula
+    Cells(y, 9) = Replace(Cells(y, 9), Chr(10), "") 'exclui a quebra de linha inserida com o enter
+    Cells(y, 9) = Replace(Cells(y, 9), " ", "") 'exclui os espaços
+    Cells(y, 10) = Mid(Cells(y, 9), 2, 2) 'retira o segundo caractere da palavra e aloca na celula
+    Cells(y, 9) = Mid(Cells(y, 9), 1, 1) 'retira o primeiro caractere da palavra e aloca na celula
+    
+    If IsEmpty(Cells(y, 10)) Then
+        Cells(y, 10).Value = 0
+    End If
+    Cells(y, 7) = Replace(Cells(y, 7), "m²", "")
+    Cells(y, 8) = Replace(Cells(y, 8), "quartos", "")
+    Cells(y, 6) = Cells(y, 5) / Cells(y, 7)
+    Cells(y, 17) = Replace(Cells(y, 17), "km", "")
+    y = y + 1
+    Loop
+
+End Sub
